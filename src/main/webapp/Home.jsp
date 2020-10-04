@@ -14,7 +14,7 @@
 </head>
 <body>
 <center><h2>Home Page</h2></center>
-Welcome <%=request.getAttribute("userName") %> <!-- Refer to the video to understand how this works -->
+Welcome <%=request.getAttribute("login") %>
 <div style="text-align: right"><a href="LogoutServlet">Logout</a></div>
 </body>
 </html>

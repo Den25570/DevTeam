@@ -2,14 +2,14 @@ package com.mvc.bean;
 
 public class LoginBean
 {
-    private String userName;
+    private String login;
     private String password;
 
     public String getUserName() {
-        return userName;
+        return login;
     }
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserName(String login) {
+        this.login = login;
     }
     public String getPassword() {
         return password;

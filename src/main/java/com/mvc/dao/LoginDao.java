@@ -31,6 +31,10 @@ public class LoginDao {
                 userNameDB = resultSet.getString("login");
                 passwordDB = resultSet.getString("password");
 
+                System.out.println(loginBean.getUserName());
+                System.out.println(userNameDB);
+                System.out.println(passwordDB);
+
                 if(userName.equals(userNameDB) && password.equals(passwordDB))
                 {
                     return "SUCCESS";

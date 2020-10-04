@@ -7,7 +7,7 @@ public class DBConnection {
     public static Connection createConnection()
     {
         Connection con = null;
-        String url = "jdbc:postgresql://127.0.0.1:5432/postgres";
+        String url = "jdbc:postgresql://pgsql-server:5432/postgres";
         String username = "postgres";
         String password = "postgres";
         String driverClassName = "org.postgresql.Driver";
