@@ -34,7 +34,7 @@
 <body>
 <div style="text-align:center"><h1>Login application in Java using MVC and MySQL </h1> </div>
 <br>
-<form name="form" action="LoginServlet" method="post" onsubmit="return validate()">
+<form name="form" action="<%=request.getContextPath()%>/LoginServlet" method="post" onsubmit="return validate()">
     <table align="center">
         <tr>
             <td>Username</td>

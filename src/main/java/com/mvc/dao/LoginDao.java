@@ -19,26 +19,30 @@ public class LoginDao {
 
         String userNameDB = "";
         String passwordDB = "";
+        int roleDB = 0;
 
         try
         {
             con = DBConnection.createConnection();
             statement = con.createStatement();
-            resultSet = statement.executeQuery("select login ,password from users");
+            resultSet = statement.executeQuery("select login, password, role from users");
 
             while(resultSet.next())
             {
                 userNameDB = resultSet.getString("login");
                 passwordDB = resultSet.getString("password");
+                roleDB = resultSet.getInt("role");
 
-                System.out.println(loginBean.getUserName());
                 System.out.println(userNameDB);
                 System.out.println(passwordDB);
+                System.out.println(roleDB);
 
-                if(userName.equals(userNameDB) && password.equals(passwordDB))
-                {
-                    return "SUCCESS";
-                }
+                if(userName.equals(userNameDB) && password.equals(passwordDB) && roleDB == 0)
+                    return "Customer";
+                else if(userName.equals(userNameDB) && password.equals(passwordDB) && roleDB == 1)
+                    return "Manager";
+                else if(userName.equals(userNameDB) && password.equals(passwordDB) && roleDB == 2)
+                    return "Developer";
             }
         }
         catch(SQLException e)
