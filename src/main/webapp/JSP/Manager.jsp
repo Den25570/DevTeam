@@ -10,6 +10,8 @@
 <html>
 <head>
     <title>Manager Home Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <c:if test="${sessionScope.Manager == null}">
     <jsp:forward page="/JSP/Login.jsp"></jsp:forward>
