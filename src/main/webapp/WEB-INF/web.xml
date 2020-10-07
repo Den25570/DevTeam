@@ -9,6 +9,17 @@
     <welcome-file-list>
         <welcome-file>Login.jsp</welcome-file>
     </welcome-file-list>
+
+    <servlet>
+        <description></description>
+        <display-name>CustomerServlet</display-name>
+        <servlet-name>CustomerServlet</servlet-name>
+        <servlet-class>com.mvc.controller.CustomerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CustomerServlet</servlet-name>
+        <url-pattern>/CustomerServlet</url-pattern>
+    </servlet-mapping>
     <servlet>
         <description></description>
         <display-name>LoginServlet</display-name>

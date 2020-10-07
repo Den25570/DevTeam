@@ -4,11 +4,13 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.UUID;
+
 import com.mvc.bean.LoginBean;
 import com.mvc.util.DBConnection;
 
 public class LoginDao {
-    public String authenticateUser(LoginBean loginBean)
+    public String[] authenticateUser(LoginBean loginBean)
     {
         String userName = loginBean.getUserName();
         String password = loginBean.getPassword();
@@ -25,7 +27,9 @@ public class LoginDao {
         {
             con = DBConnection.createConnection();
             statement = con.createStatement();
-            resultSet = statement.executeQuery("select login, password, role from users");
+
+            //get user data
+            resultSet = statement.executeQuery("select id ,login, password, role from users where login =\'" + userName+"\'");
 
             while(resultSet.next())
             {
@@ -36,19 +40,32 @@ public class LoginDao {
                 System.out.println(userNameDB);
                 System.out.println(passwordDB);
                 System.out.println(roleDB);
+                System.out.println(resultSet.getInt("id"));
+
+                String result = "";
 
                 if(userName.equals(userNameDB) && password.equals(passwordDB) && roleDB == 0)
-                    return "Customer";
+                    result =  "Customer";
                 else if(userName.equals(userNameDB) && password.equals(passwordDB) && roleDB == 1)
-                    return "Manager";
+                    result =  "Manager";
                 else if(userName.equals(userNameDB) && password.equals(passwordDB) && roleDB == 2)
-                    return "Developer";
+                    result = "Developer";
+
+                if (result != "") {
+                    //set user_key
+                    String key = UUID.randomUUID().toString();
+                    statement.executeUpdate("UPDATE users SET user_key = \'"+key+"\' WHERE id =" +
+                            Integer.toString(resultSet.getInt("id")) + "");
+                    return new String[]{result, key};
+                }
+                else
+                    return new String[]{"Invalid user credentials"};
             }
         }
         catch(SQLException e)
         {
             e.printStackTrace();
         }
-        return "Invalid user credentials";
+        return new String[]{"Invalid user credentials"};
     }
 }

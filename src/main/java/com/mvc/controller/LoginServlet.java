@@ -30,43 +30,43 @@ public class LoginServlet extends HttpServlet {
 
         try
         {
-            String userValidate = loginDao.authenticateUser(loginBean);
+            String[] userValidate = loginDao.authenticateUser(loginBean);
+            HttpSession session = request.getSession(); //Creating a session
 
-            if(userValidate.equals("Customer"))
+            if(userValidate[0].equals("Customer"))
             {
                 System.out.println("Customer's Home");
 
-                HttpSession session = request.getSession(); //Creating a session
                 session.setAttribute("Customer", userName); //setting session attribute
+                session.setAttribute("userKey", userValidate[1]);
                 request.setAttribute("userName", userName);
 
-                request.getRequestDispatcher("/JSP/Customer.jsp").forward(request, response);
+                request.getRequestDispatcher("/JSP/MainPages/Customer.jsp").forward(request, response);
             }
-            else if(userValidate.equals("Manager"))
+            else if(userValidate[0].equals("Manager"))
             {
                 System.out.println("Manager's Home");
 
-                HttpSession session = request.getSession();
                 session.setAttribute("Manager", userName);
+                session.setAttribute("userKey", userValidate[1]);
                 request.setAttribute("userName", userName);
 
-                request.getRequestDispatcher("/JSP/Manager.jsp").forward(request, response);
+                request.getRequestDispatcher("/JSP/MainPages/Manager.jsp").forward(request, response);
             }
-            else if(userValidate.equals("Developer"))
+            else if(userValidate[0].equals("Developer"))
             {
                 System.out.println("Developer's Home");
 
-                HttpSession session = request.getSession();
-                session.setMaxInactiveInterval(10*60);
                 session.setAttribute("Developer", userName);
+                session.setAttribute("userKey", userValidate[1]);
                 request.setAttribute("userName", userName);
 
-                request.getRequestDispatcher("/JSP/Developer.jsp").forward(request, response);
+                request.getRequestDispatcher("/JSP/MainPages/Developer.jsp").forward(request, response);
             }
             else
             {
-                System.out.println("Error message = "+userValidate);
-                request.setAttribute("errMessage", userValidate);
+                System.out.println("Error message = "+userValidate[0]);
+                request.setAttribute("errMessage", userValidate[0]);
 
                 request.getRequestDispatcher("/JSP/Login.jsp").forward(request, response);
             }
