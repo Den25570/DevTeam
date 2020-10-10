@@ -1,5 +1,8 @@
 package com.mvc.filter;
 
+import com.mvc.bean.UserBean;
+import com.mvc.dao.UserDao;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -7,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter("/*")
 public class UserFilter implements Filter {
     public void destroy() {
     }
@@ -17,11 +19,12 @@ public class UserFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) resp;
         HttpSession session = request.getSession(false);
 
-       /* if (session == null || session.getAttribute("userKey") == null) {
-            response.sendRedirect(request.getContextPath() + "/LoginServlet"); // No logged-in user found, so redirect to login page.
-       */// } else {
-            chain.doFilter(req, resp); // Logged-in user found, so just continue request.
-       // }
+        if (session == null || session.getAttribute("userKey") == null) {
+            response.sendRedirect(request.getContextPath() + "/LoginServlet");
+        }
+        else {
+            chain.doFilter(req, resp);
+        }
     }
 
     public void init(FilterConfig config) throws ServletException {

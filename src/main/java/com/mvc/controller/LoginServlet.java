@@ -41,7 +41,7 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("userKey", userValidate[1]);
                 request.setAttribute("userName", userName);
 
-                request.getRequestDispatcher("/JSP/MainPages/Customer.jsp").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/MyProjects");
             }
             else if(userValidate[0].equals("Manager"))
             {

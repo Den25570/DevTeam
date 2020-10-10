@@ -10,7 +10,6 @@ import java.sql.Statement;
 
 public class UserDao {
     public UserBean getUser(String userKey) {
-        UserBean userBean = null;
         Connection con = null;
         Statement statement = null;
         try
@@ -21,7 +20,7 @@ public class UserDao {
             ResultSet result = statement.executeQuery(
                     "select * from users where user_key =\'" + userKey + "\'");
 
-            userBean = new UserBean();
+            UserBean userBean = new UserBean();
             if(result.next()) {
                 userBean.setId(result.getInt("id"));
                 userBean.setLogin(result.getString("login"));
@@ -30,14 +29,13 @@ public class UserDao {
                 userBean.setQualification(result.getString("qualification"));
                 userBean.setUserKey(result.getString("user_key"));
             }
-            System.out.println(userKey);
-            System.out.println(userBean.getId());
 
+            return userBean;
         }
         catch(SQLException e)
         {
             e.printStackTrace();
         }
-        return userBean;
+        return null;
     }
 }

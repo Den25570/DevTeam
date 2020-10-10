@@ -87,7 +87,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "${context}/CustomerServlet",
+                    url: "${context}/AddProject",
                     data: JSON.stringify(data),
                     success: function (response) {
                         alert('ТЗ успешно добавлено');
@@ -110,7 +110,7 @@
     <jsp:forward page="/JSP/Login.jsp"></jsp:forward>
 </c:if>
 <body>
-<%@ include file="../templates/header.jsp" %>
+<%@ include file="../../templates/header.jsp" %>
 <div class="container">
     <h4>Конструктор Проекта</h4>
     <div class="card-item">

@@ -10,15 +10,34 @@
         <welcome-file>Login.jsp</welcome-file>
     </welcome-file-list>
 
+    <filter>
+        <filter-name>UserFilter</filter-name>
+        <filter-class>com.mvc.filter.UserFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>UserFilter</filter-name>
+        <url-pattern>/home/*</url-pattern>
+    </filter-mapping>
+
     <servlet>
         <description></description>
-        <display-name>CustomerServlet</display-name>
-        <servlet-name>CustomerServlet</servlet-name>
-        <servlet-class>com.mvc.controller.CustomerServlet</servlet-class>
+        <display-name>CustomerProjectCreateServlet</display-name>
+        <servlet-name>CustomerProjectCreateServlet</servlet-name>
+        <servlet-class>com.mvc.controller.CustomerProjectCreateServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>CustomerServlet</servlet-name>
-        <url-pattern>/CustomerServlet</url-pattern>
+        <servlet-name>CustomerProjectCreateServlet</servlet-name>
+        <url-pattern>/AddProject</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <display-name>CustomerHome</display-name>
+        <servlet-name>CustomerHome</servlet-name>
+        <servlet-class>com.mvc.controller.CustomerHome</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CustomerHome</servlet-name>
+        <url-pattern>/MyProjects</url-pattern>
     </servlet-mapping>
     <servlet>
         <description></description>
