@@ -2,6 +2,7 @@ package com.mvc.controller;
 
 import com.google.gson.Gson;
 import com.mvc.bean.ProjectBean;
+import com.mvc.bean.SpecificationBean;
 import com.mvc.bean.UserBean;
 import com.mvc.dao.ProjectDao;
 import com.mvc.util.Validation;
@@ -21,8 +22,10 @@ public class CustomerHome extends HttpServlet {
         //validation
         UserBean userBean = Validation.validateWithRole(request, response);
 
+        com.google.gson.JsonObject data = new Gson().fromJson(request.getReader(), com.google.gson.JsonObject.class);
+
         ProjectDao projectDao = new ProjectDao();
-        ArrayList<ProjectBean> projects = projectDao.getAllSpecificationsAndProjects(userBean.getId());
+        ArrayList<ProjectBean> projects = projectDao.getAllSpecificationsAndProjects(userBean.getId(), data.get("page").getAsInt());
         String projectsSerialized = new Gson().toJson(projects);
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
@@ -31,6 +34,12 @@ public class CustomerHome extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //validation
+        UserBean userBean = Validation.validateWithRole(request, response);
+
+        ProjectDao projectDao = new ProjectDao();
+
+        request.setAttribute("dataCount", projectDao.getProjectsCount(userBean.getId()));
         request.getRequestDispatcher("/JSP/MainPages/CustomerPages/CustomerHome.jsp").forward(request, response);
     }
 }

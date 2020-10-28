@@ -14,27 +14,20 @@
     <script>
         $(document).ready(function () {
             //LoadProjects
+            for(let i = 15 ; i < (${requestScope.dataCount}); i+= 15) {
+                AddPageLink('projects-pagination', Math.floor(i/15))
+            }
 
-            $.ajax({
-                type: "POST",
-                url: "${context}/MyProjects",
-                success: function (response) {
-                    console.log(response);
-                    let projectList = response;
-                    for(let i = 0 ; i < projectList.length; i++) {
-                        AddProject('projects', projectList[i].specification.name, projectList[i].specification.description, projectList[i].id);
-                    }
-                }
-            });
+            loadProjects(1);
 
             function AddProject(parentId, name, description, specification_id) {
-                let jobTextTemplate = '<div>\n' +
-                    '            <div>\n' +
-                    '                <h5 class="mb-2 border-bottom p-1">'+ name +'</h5>\n' +
-                    '                <p class="mb-2">'+ description +'</p>\n' +
-                    '                <button data-id="'+ specification_id +'" class="btn btn-outline-dark">Open</button>\n' +
-                    '            </div>\n' +
-                    '        </div>'
+                let jobTextTemplate = '<div>' +
+                    '<div>' +
+                    '<h5 class="mb-2 border-bottom p-1">'+ name +'</h5>' +
+                    '<p class="mb-2">'+ description +'</p>' +
+                    '<button data-id="'+ specification_id +'" class="btn btn-outline-dark">Open</button>' +
+                    '</div>' +
+                    '</div>'
 
                 let jobTemplate = document.createElement('div');
                 jobTemplate.classList.add("card-item");
@@ -44,6 +37,30 @@
                 jobTemplate.innerHTML = jobTextTemplate;
 
                 document.getElementById(parentId).appendChild(jobTemplate);
+            }
+
+            function AddPageLink(parentId, number) {
+                let linkTemplate = '<li class="page-item"><a class="page-link" onclick="loadProjects('+number+')">'+number+'</a></li>'
+                document.getElementById(parentId).innerHTML += linkTemplate;
+            }
+
+            function loadProjects(page) {
+                $.ajax({
+                    type: "POST",
+                    url: "${context}/MyProjects",
+                    data: JSON.stringify({
+                        page: page
+                    }),
+                    success: function (response) {
+                        console.log(response);
+                        let projectList = response;
+
+                        jQuery('#projects-spinner').remove();
+                        for(let i = 0 ; i < projectList.length; i++) {
+                            AddProject('projects', projectList[i].specification.name, projectList[i].specification.description, projectList[i].id);
+                        }
+                    }
+                });
             }
         });
     </script>
@@ -64,32 +81,18 @@
 <body>
 <%@ include file="../../templates/header.jsp" %>
 <div class="container">
-    <div id="projects" class="card-item mb-3">
-        <div class="card-item bg-white p-3 mb-2">
-            <div>
-                <h5 class="mb-2 border-bottom p-1">Тест</h5>
-                <p class="mb-2">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                    industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
-                    and scrambled it to make a type specimen book. It has survived not only five centuries, but also the
-                    leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s
-                    with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
-                    publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                <button class="btn btn-outline-dark">Open</button>
+    <h3>Мои проекты</h3>
+    <div id="projects" class="card-item mb-2 d-flex flex-column">
+        <div id="projects-spinner" class="d-flex w-100 justify-content-center">
+            <div class="spinner-border justify-content-center my-4" role="status">
+                <span class="sr-only">Loading...</span>
             </div>
         </div>
     </div>
+    <button class="btn btn-dark mb-3 w-100"><a class="text-white text-decoration-none" href="${context}/AddProject">Cоздать ТЗ</a></button>
     <div>
         <nav aria-label="paging">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">Previous</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                </li>
+            <ul id="projects-pagination" class="pagination justify-content-center">
             </ul>
         </nav>
     </div>
