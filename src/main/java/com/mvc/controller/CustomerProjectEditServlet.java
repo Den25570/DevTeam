@@ -43,7 +43,13 @@ public class CustomerProjectEditServlet extends HttpServlet {
             jobBean.setName(job.getAsJsonObject().get("name").getAsString());
             jobBean.setRequiredDevNumber(job.getAsJsonObject().get("devNum").getAsInt());
             jobBean.setRequiredQualification(job.getAsJsonObject().get("devQual").getAsString());
-            jobDao.updateJob(jobBean, specificationId);
+            if (jobBean.getId() == 0) {
+                jobDao.addJob(jobBean, specificationBean.getId());
+            }
+            else {
+                jobDao.updateJob(jobBean);
+            }
+
 
         });
     }
@@ -63,6 +69,6 @@ public class CustomerProjectEditServlet extends HttpServlet {
 
         request.setAttribute("project", projectBean);
         request.setAttribute("jobs", jobs);
-        request.getRequestDispatcher("/JSP/MainPages/CustomerPages/CustomerHome.jsp").forward(request, response);
+        request.getRequestDispatcher("/JSP/MainPages/CustomerPages/SpecificationEditPage.jsp").forward(request, response);
     }
 }

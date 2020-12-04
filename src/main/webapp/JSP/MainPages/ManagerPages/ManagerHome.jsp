@@ -81,15 +81,14 @@
 <body>
 <%@ include file="../../templates/header.jsp" %>
 <div class="container">
-    <h3>Мои проекты</h3>
+    <h3>Проекты</h3>
     <div id="projects" class="card-item mb-2 d-flex flex-column">
         <div id="projects-spinner" class="d-flex w-100 justify-content-center">
             <div class="spinner-border justify-content-center my-4" role="status">
-                <span class="sr-only">Loading...</span>
+                <span class="sr-only">Загрузка...</span>
             </div>
         </div>
     </div>
-    <button class="btn btn-dark mb-3 w-100"><a class="text-white text-decoration-none" href="${context}/AddProject">Cоздать ТЗ</a></button>
     <div>
         <nav aria-label="paging">
             <ul id="projects-pagination" class="pagination justify-content-center">

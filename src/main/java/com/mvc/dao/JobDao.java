@@ -44,7 +44,7 @@ public class JobDao {
             ResultSet result = statement.executeQuery("" +
                     "SELECT * " +
                     "FROM jobs " +
-                    "WHERE jobs.specification_id=" + specificationId);
+                    "WHERE specification_id=" + specificationId);
 
             ArrayList<JobBean> jobBeans = new ArrayList<>();
             while(result.next()) {
@@ -65,7 +65,7 @@ public class JobDao {
         return null;
     }
 
-    public void updateJob(JobBean jobBean, int specificationId) {
+    public void updateJob(JobBean jobBean) {
         int id = jobBean.getId();
         String name = jobBean.getName();
         int devNum = jobBean.getRequiredDevNumber();
@@ -77,10 +77,10 @@ public class JobDao {
         {
             con = DBConnection.createConnection();
             statement = con.createStatement();
-            statement.executeUpdate("UPDATE jobs " +
-                    "SET  name=" + name + ", required_dev_number=" + devNum + ", required_qualification=" + devQual + " " +
-                    "(specification_id, required_dev_number, required_qualification, name)" +
-                    "values(" + specificationId +", \'" + devNum + "\', \'"+ devQual + "\', \'"+ name + "\')");
+            statement.executeUpdate("" +
+                    "UPDATE jobs " +
+                    "SET  name=\'" + name + "\', required_dev_number=\'" + devNum + "\', required_qualification=\'" + devQual + "\' " +
+                    "WHERE id=" + id);
         }
         catch(SQLException e)
         {

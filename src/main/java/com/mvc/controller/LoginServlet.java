@@ -20,6 +20,8 @@ public class LoginServlet extends HttpServlet {
 
         String userName = request.getParameter("login");
         String password = request.getParameter("password");
+        System.out.println(userName);
+        System.out.println(password);
 
         LoginBean loginBean = new LoginBean();
 
@@ -51,7 +53,7 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("userKey", userValidate[1]);
                 request.setAttribute("userName", userName);
 
-                request.getRequestDispatcher("/JSP/MainPages/Manager.jsp").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/Projects");
             }
             else if(userValidate[0].equals("Developer"))
             {

@@ -37,11 +37,6 @@ public class LoginDao {
                 passwordDB = resultSet.getString("password");
                 roleDB = resultSet.getInt("role");
 
-                System.out.println(userNameDB);
-                System.out.println(passwordDB);
-                System.out.println(roleDB);
-                System.out.println(resultSet.getInt("id"));
-
                 String result = "";
 
                 if(userName.equals(userNameDB) && password.equals(passwordDB) && roleDB == 0)

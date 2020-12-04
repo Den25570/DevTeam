@@ -37,4 +37,30 @@ public class SpecificationDao {
         }
         return -1;
     }
+
+    public void updateSpecification(SpecificationBean specificationBean) {
+        int id = specificationBean.getId();
+        String name = specificationBean.getName();
+        String description = specificationBean.getDescription();
+
+        Connection con = null;
+        Statement statement = null;
+
+        try
+        {
+            con = DBConnection.createConnection();
+            statement = con.createStatement();
+
+            statement.executeUpdate("" +
+                    "UPDATE specifications " +
+                    "SET name=\'"+ name +"\', description=\'"+ description +"\' " +
+                    "WHERE id=" + id);
+
+            System.out.println("Specification updated in id:" + id);
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }

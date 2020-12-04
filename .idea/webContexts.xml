@@ -6,6 +6,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/JSP/Customer.jsp" value="file://$PROJECT_DIR$/src/main/webapp/JSP" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/JSP/Login.jsp" value="file://$PROJECT_DIR$/src/main/webapp/JSP" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/JSP/MainPages/CustomerPages/CustomerHome.jsp" value="file://$PROJECT_DIR$/src/main/webapp/JSP/MainPages/CustomerPages" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/JSP/MainPages/CustomerPages/SpecificationEditPage.jsp" value="file://$PROJECT_DIR$/src/main/webapp/JSP/MainPages/CustomerPages" />
       </map>
     </option>
   </component>
