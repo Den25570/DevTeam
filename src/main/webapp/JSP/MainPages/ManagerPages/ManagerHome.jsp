@@ -33,7 +33,7 @@
                 jobTemplate.classList.add("p-3");
                 jobTemplate.classList.add("mb-2");
                 jobTemplate.classList.add("text-decoration-none")
-                jobTemplate.setAttribute('href', "${context}/project?id="+specification_id);
+                jobTemplate.setAttribute('href', "${context}/project-registration?id="+specification_id);
                 jobTemplate.innerHTML = jobTextTemplate;
 
                 document.getElementById(parentId).appendChild(jobTemplate);
@@ -47,7 +47,7 @@
             function loadProjects(page) {
                 $.ajax({
                     type: "POST",
-                    url: "${context}/MyProjects",
+                    url: "${context}/Projects",
                     data: JSON.stringify({
                         page: page
                     }),
@@ -75,7 +75,7 @@
     </style>
 </head>
 
-<c:if test="${sessionScope.Customer == null}">
+<c:if test="${sessionScope.Manager == null}">
     <jsp:forward page="/JSP/Login.jsp"></jsp:forward>
 </c:if>
 <body>

@@ -105,12 +105,23 @@ public class ProjectDao {
             con = DBConnection.createConnection();
             statement = con.createStatement();
 
-            ResultSet result = statement.executeQuery("" +
-                    "SELECT COUNT(*) as full_count " +
-                    "FROM specifications " +
-                    "LEFT JOIN projects " +
-                    "ON specifications.id=projects.specification_id " +
-                    "WHERE specifications.user_creator_id="+user_id + " ");
+            ResultSet result;
+            if (user_id != -1) {
+                result = statement.executeQuery("" +
+                        "SELECT COUNT(*) as full_count " +
+                        "FROM specifications " +
+                        "LEFT JOIN projects " +
+                        "ON specifications.id=projects.specification_id " +
+                        "WHERE specifications.user_creator_id="+user_id + " ");
+            }
+            else {
+                result = statement.executeQuery("" +
+                        "SELECT COUNT(*) as full_count " +
+                        "FROM specifications " +
+                        "LEFT JOIN projects " +
+                        "ON specifications.id=projects.specification_id ");
+            }
+
 
             result.next();
             return result.getInt(1);

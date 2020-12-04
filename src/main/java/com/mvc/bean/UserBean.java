@@ -8,6 +8,8 @@ public class UserBean {
     private String qualification;
     private String userKey;
 
+    private int job_id;
+
     public int getId() {
         return id;
     }
@@ -48,6 +50,13 @@ public class UserBean {
     }
     public void setUserKey(String userKey) {
         this.userKey = userKey;
+    }
+
+    public int getJob_id() {
+        return job_id;
+    }
+    public void setJob_id(int job_id) {
+        this.job_id = job_id;
     }
 
 }

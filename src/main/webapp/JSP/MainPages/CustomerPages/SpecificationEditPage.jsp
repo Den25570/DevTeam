@@ -67,7 +67,7 @@
                 errorElem.innerHTML += !projectDesc ? 'Описание проекта не заполнено. ' : ''
 
                 let projectJobs = [];
-                for (let i = 1; i < document.getElementById("add-job-btn").dataset.job; i++) {
+                for (let i = 0; i < document.getElementById("add-job-btn").dataset.job; i++) {
                     projectJobs.push({
                         id : document.getElementById("job-name-" + i).dataset.id,
                         name: document.getElementById("job-name-" + i).value,
@@ -75,8 +75,8 @@
                         devQual: document.getElementById("job-qual-" + i).value,
                     });
 
-                    errorElem.innerHTML += !projectJobs[i - 1].name || !projectJobs[i - 1].devNum || !projectJobs[i - 1].devQual ?
-                        'Не все поля работы №' + i + ' заполнены.' : '';
+                    errorElem.innerHTML += !projectJobs[i].name || !projectJobs[i].devNum || !projectJobs[i].devQual ?
+                        'Не все поля работы №' + i+1 + ' заполнены.' : '';
                 }
 
                 if (errorElem.innerHTML) {
@@ -138,7 +138,7 @@
                             <h6>Работа №${loop.index + 1}</h6>
                             <div class="form-group">
                                 <label for="job-name-${loop.index}">Название работы</label>
-                                <input data-id=${job.id} value="${job.name}" type="text" class="form-control" id="job-name-${loop.index}"
+                                <input data-id="${job.id}" value="${job.name}" type="text" class="form-control" id="job-name-${loop.index}"
                                        rows="3">
                             </div>
                             <div class="d-flex flex-row">
@@ -156,7 +156,7 @@
                         </div>
                     </c:forEach>
                 </div>
-                <button id="add-job-btn" data-job="${requestScope.jobs.size()+1}" class="btn btn-dark">Добавить работу</button>
+                <button id="add-job-btn" data-job="${requestScope.jobs.size()}" class="btn btn-dark">Добавить работу</button>
             </div>
             <div id="error-message" class="text-danger mb-2"></div>
             <button id="add-project-btn" class="btn btn-dark w-100">Редактировать проект</button>

@@ -20,48 +20,26 @@
                 document.getElementById("add-project-btn").disabled = false;
             });
 
-            function UpdateJobTemplate(parentId, JobNumber) {
-                console.log('updating job');
-                let jobTextTemplate = '<h6>Работа №' + JobNumber + '</h6>\n' +
-                    '<div class="form-group">\n' +
-                    '<label for="job-name-' + JobNumber + '">Название работы</label>\n' +
-                    '<input data-id="0" type="text" class="form-control" id="job-name-' + JobNumber + '" rows="3"></input>\n' +
-                    '</div>\n' +
-                    '<div class="d-flex flex-row">\n' +
-                    '<div class="form-group mr-2">\n' +
-                    '<label for="job-dev-num-' + JobNumber + '">Необходимое число разработчиков</label>\n' +
-                    '<input  min="1" max="1000" type="number" class="form-control" id="job-dev-num-' + JobNumber + '" rows="3"></input>\n' +
-                    '</div>\n' +
-                    '<div class="form-group">\n' +
-                    '<label for="job-qual-' + JobNumber + '">Необходимая квалификация</label>\n' +
-                    '<input type="text" class="form-control" id="job-qual-' + JobNumber + '" rows="3"></input>\n' +
-                    '</div>\n' +
-                    '</div>';
-
-                let jobTemplate = document.createElement('div');
-                jobTemplate.classList.add("card-item");
-                jobTemplate.classList.add("bg-white");
-                jobTemplate.classList.add("mb-2");
-                jobTemplate.classList.add("mb-2");
-                jobTemplate.innerHTML = jobTextTemplate;
-
-                document.getElementById(parentId).appendChild(jobTemplate);
+            limitSelect(id, num) {
+                    if ($(id).val().length > num) {
+                        $(id).val(last_valid_selection);
+                    } else {
+                        last_valid_selection = $(this).val();
+                    }
             }
 
-            function UpdateProject() {
+            function RegisterProject() {
 
-                let projectName = document.getElementById("project-name").value;
-                let projectDesc = document.getElementById("project-description").value;
+                let projectCost = document.getElementById("project-cost").value;
 
                 let errorElem = document.getElementById("error-message");
                 errorElem.innerHTML = '';
 
-                errorElem.innerHTML += !projectName ? 'Название проекта не заполнено. ' : ''
-                errorElem.innerHTML += !projectDesc ? 'Описание проекта не заполнено. ' : ''
+                errorElem.innerHTML += !projectCost ? 'Стоимость проекта не указана. ' : ''
 
-                let projectJobs = [];
+                let developers = [];
                 for (let i = 1; i < document.getElementById("add-job-btn").dataset.job; i++) {
-                    projectJobs.push({
+                    developers.push({
                         id : document.getElementById("job-name-" + i).dataset.id,
                         name: document.getElementById("job-name-" + i).value,
                         devNum: document.getElementById("job-dev-num-" + i).value,
@@ -78,17 +56,16 @@
 
                 let data = {
                     id: ${requestScope.project.id},
-                    name: projectName,
-                    description: projectDesc,
-                    jobs: projectJobs,
+                    cost: projectCost,
+                    developers: developers,
                 };
 
                 $.ajax({
                     type: "POST",
-                    url: "${context}/project",
+                    url: "${context}/project-register",
                     data: JSON.stringify(data),
                     success: function (response) {
-                        alert('ТЗ успешно обновлено');
+                        alert('ТЗ успешно оформлено');
                     }
                 });
             }
@@ -112,13 +89,18 @@
         <div>
             <div class="form-group">
                 <label for="project-name">Название проекта</label>
-                <input value="${requestScope.project.specification.name}" type="text" class="form-control"
+                <input disabled value="${requestScope.project.specification.name}" type="text" class="form-control"
                        id="project-name" placeholder="Новый проект" readonly>
             </div>
             <div class="form-group">
                 <label for="project-description">Описание проекта</label>
-                <textarea class="form-control" id="project-description"
+                <textarea disabled class="form-control" id="project-description"
                           rows="3" readonly>${requestScope.project.specification.description}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="project-description">Стоимость проекта</label>
+                <input type="number" disabled class="form-control" id="project-cost"
+                          rows="3" readonly value="${requestScope.project.cost}"></input>
             </div>
             <h5 class="mt-3">Работы</h5>
             <div class="mb-3">
@@ -128,43 +110,46 @@
                             <h6>Работа №${loop.index + 1}</h6>
                             <div class="form-group">
                                 <label for="job-name-${loop.index}">Название работы</label>
-                                <input data-id=${job.id} value="${job.name}" type="text" class="form-control" id="job-name-${loop.index}"
+                                <input disabled data-id=${job.id} value="${job.name}" type="text" class="form-control" id="job-name-${loop.index}"
                                        rows="3" readonly>
                             </div>
                             <div class="d-flex flex-row">
                                 <div class="form-group mr-2">
                                     <label for="job-dev-num-${loop.index}">Необходимое число разработчиков</label>
-                                    <input value="${job.requiredDevNumber}" type="number" class="form-control"
+                                    <input disabled value="${job.requiredDevNumber}" type="number" class="form-control"
                                            id="job-dev-num-${loop.index}" rows="3" min="1" max="1000" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="job-qual-${loop.index}">Необходимая квалификация</label>
-                                    <input value="${job.requiredQualification}" type="text" class="form-control"
+                                    <input disabled value="${job.requiredQualification}" type="text" class="form-control"
                                            id="job-qual-${loop.index}" rows="3" readonly>
                                 </div>
                                 <div class="form-group">
-                                    <label for="job-qual-${loop.index}">Необходимая квалификация</label>
-                                    <input value="${job.requiredQualification}" type="text" class="form-control"
-                                           id="job-qual-${loop.index}" rows="3" readonly>
+                                    <label for="dev-select-${loop.index}">Назначенные разработчики</label>
+                                    <select multiple class="form-control" id="dev-select-${loop.index}">
+                                        <c:forEach items="${requestScope.devs}" var="dev" varStatus="loop_dev">
+                                            <c:choose>
+                                            <c:when test="${dev.qualification eq job.requiredQualification}">
+                                                <c:choose>
+                                                <c:when test="${dev.job_id eq job.id}">
+                                                    <option selected value="${dev.id}">${dev.login}</option>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <c:choose>
+                                                    <c:when test="${dev.job_id eq 0}">
+                                                        <option value="${dev.id}">${dev.login}</option>
+                                                    </c:when>
+                                                    <c:otherwise></c:otherwise>
+                                                </c:choose>
+                                                </c:otherwise>
+                                                </c:choose>
+                                            </c:when>
+                                            <c:otherwise></c:otherwise>
+                                            </c:choose>
+                                        </c:forEach>
+                                    </select>
                                 </div>
                             </div>
-                        </div>
-                    </c:forEach>
-                </div>
-            </div>
-
-            <h5 class="mt-3">Разработчики</h5>
-            <div class="mb-3">
-                <div id="developer-list" class="mb-1">
-                    <c:forEach items="${requestScope.developers}" var="job" varStatus="loop">
-                        <div class="card-item bg-white mb-2">
-                            <h6>Работа №${loop.index + 1}</h6>
-                            <div class="form-group">
-                                <label for="job-name-${loop.index}">Login</label>
-                                <input data-id=${job.id} value="${job.name}" type="text" class="form-control" id="job-name-${loop.index}"
-                                       rows="3" readonly>
-                            </div>
-
                         </div>
                     </c:forEach>
                 </div>

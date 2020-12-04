@@ -58,6 +58,17 @@
         <servlet-name>CustomerProjectEditServlet</servlet-name>
         <url-pattern>/project</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <display-name>ManagerProjectEditServlet</display-name>
+        <servlet-name>ManagerProjectEditServlet</servlet-name>
+        <servlet-class>com.mvc.controller.ManagerProjectEditServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ManagerProjectEditServlet</servlet-name>
+        <url-pattern>/project-registration</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <description></description>
         <display-name>LoginServlet</display-name>
