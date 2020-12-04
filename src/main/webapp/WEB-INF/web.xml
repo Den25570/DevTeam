@@ -70,6 +70,16 @@
     </servlet-mapping>
     <servlet>
         <description></description>
+        <display-name>RegisterServlet</display-name>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>com.mvc.controller.RegisterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <description></description>
         <display-name>LogoutServlet</display-name>
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>com.mvc.controller.LogoutServlet</servlet-class>

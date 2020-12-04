@@ -63,4 +63,32 @@ public class LoginDao {
         }
         return new String[]{"Invalid user credentials"};
     }
+
+    public String[] registerUser(LoginBean loginBean, String role, String qualification)
+    {
+        String userName = loginBean.getUserName();
+        String password = loginBean.getPassword();
+        int role_int = role.equals("Customer") ? 0 : (role.equals("Manager") ? 1 : 2);
+
+        Connection con = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        try
+        {
+            con = DBConnection.createConnection();
+            statement = con.createStatement();
+
+            //insert
+            resultSet = statement.executeQuery("" +
+                    "INSERT INTO users(login, password, role, qualification) " +
+                    "VALUES ('" + userName + "','" + password + "','" + role_int + "',\'"  + qualification + "\')"
+            );
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return new String[]{"Invalid user credentials"};
+    }
 }

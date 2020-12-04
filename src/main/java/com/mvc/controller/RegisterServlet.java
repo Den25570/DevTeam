@@ -1,34 +1,33 @@
 package com.mvc.controller;
 
-import java.io.IOException;
+import com.mvc.bean.LoginBean;
+import com.mvc.dao.LoginDao;
+
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
-import com.mvc.bean.LoginBean;
-import com.mvc.dao.LoginDao;
-
-public class LoginServlet extends HttpServlet {
-
+@WebServlet(name = "RegisterServlet")
+public class RegisterServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/JSP/Login.jsp").forward(request, response);
+        request.getRequestDispatcher("/JSP/Register.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         String userName = request.getParameter("login");
         String password = request.getParameter("password");
-        System.out.println(userName);
-        System.out.println(password);
+        String role = request.getParameter("role");
+        String qualification = request.getParameter("qualification");
 
         LoginBean loginBean = new LoginBean();
-
         loginBean.setUserName(userName);
         loginBean.setPassword(password);
-
         LoginDao loginDao = new LoginDao();
+        loginDao.registerUser(loginBean, role, qualification);
 
         try
         {
